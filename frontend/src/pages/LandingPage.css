@@ -1,0 +1,44 @@
+.landing-page {
+    min-height: calc(100vh - 122px);
+    background-color: #F8F3D9;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+}
+
+.welcome-text {
+    text-align: left;
+}
+
+#hero-text, #hero-caption {
+    color: #504B38;
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+#hero-text {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+#hero-caption {
+    font-size: 1.2rem;
+}
+
+#login-btn {
+    background-color: #504B38;
+    color: #F8F3D9;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+#login-btn:hover {
+    background-color: #B9B28A;
+    color: #504B38;
+}
