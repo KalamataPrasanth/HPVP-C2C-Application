@@ -32,11 +32,29 @@ cd HPVP-Project
 ```sh
 # Install backend dependencies
 npm install
+```
+📦 **Key Backend Libraries:**  
+| Library       | Purpose |
+|--------------|---------|
+| `bcryptjs`   | Password hashing |
+| `cors`       | Enables cross-origin requests |
+| `crypto-js`  | Encryption and hashing functions |
+| `dotenv`     | Manages environment variables |
+| `express`    | Web framework for handling API routes |
+| `jsonwebtoken` | JWT-based authentication |
+| `mongoose`   | ODM (Object Data Modeling) for MongoDB |
+| `multer`     | Handles file uploads |
+| `nodemon`    | Automatically restarts the server during development |
 
+```sh
 # Navigate to frontend and install dependencies
 cd frontend
 npm install
 ```
+📦 **Key Frontend Libraries:**  
+- `react-router-dom` – Routing  
+- `axios` – API calls
+- `crypto-js` - Encryption and hashing functions
 
 #### 3️⃣ Set Up Environment Variables
 Create a `.env` file in the **root** directory and add:
