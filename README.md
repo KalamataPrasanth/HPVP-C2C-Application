@@ -112,30 +112,126 @@ HPVP-Project/
 ### 🔹 Authentication
 #### `POST /api/auth/login`
 - **Description**: Logs in a user and returns a JWT Token.
-- **Body**:
+- **Request Body**:
 ```json
 {
   "staffno": "xxxxxxx",
   "password": "securepassword"
 }
 ```
-- **Response**:
+- **Response (on Success)**:
 ```json
 {
-  "token": "your-jwt-token"
+  "token": "your-jwt-token",
+  "name" : "name-corresponding-to-the-staffno",
+  "staffno": "your-staff-number"
+}
+```
+
+- **Response (on Failure)**:
+```json
+{
+  "message": "Invalid Credentials"
 }
 ```
 
 ### 🔹 Product Management
 #### `GET /api/products`
 - **Description**: Fetch all products.
-- **Response**:
+- **Response (on Success)**:
 ```json
-[
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "12345",
+      "name": "Product Name",
+      "price": 100,
+      "description": "Product description",
+      "seller": {
+        "_id": "60f7c6f5d6a3b51a847b6a23",
+        "name": "seller name",
+        "staffno": "xxxxxxx",
+        "telephone": "xxxx",
+        "mobile": "9876543210",
+        "address": "seller address",
+        "email": "sellremail@email.com"
+      },
+      "image": "http://localhost:5000/uploads/image.jpg"
+    }
+  ]
+}
+```
+- **Response (on Failure)**
+```json
   {
+    "success": false,
+    "message": "Product Not found"
+  }
+```
+
+#### `POST /api/products`
+- **Description**: Creates a new product listing.
+- **Request body (form-data)**:
+  | Field        | Type     | Required | Description |
+  |-------------|---------|----------|-------------|
+  | `name`      | String  |  Yes  | Product name |
+  | `price`     | Number  |  Yes  | Product price |
+  | `description` | String |  Yes | Product details |
+  | `staffno`   | String  |  Yes  | Seller's staff number |
+  | `image`     | File    |  No  | Product image (uploaded file) |
+  
+- **Response (on Successs)**
+```json
+{
+  "success": true,
+  "data": {
     "_id": "12345",
     "name": "Product Name",
-    "price": 100
+    "price": 100,
+    "description": "Product description",
+    "seller": "60f7c6f5d6a3b51a847b6a23",
+    "image": "http://localhost:5000/uploads/image.jpg"
   }
-]
+}
+```
+- **Response (on Failure)**
+```json
+  {
+    "success": false,
+    "message": "Invalid Seller, Employee does not exist."
+  }
+```
+#### `DELETE /api/products/:id`
+- **Description**: Deletes a product by id.
+- **Response (on Success)**:
+```json
+{
+  "message": "Product deleted Successfully"
+}
+```
+
+- **Response (on Failure)**:
+```json
+{
+  "message": "Product not found"
+}
+```
+
+#### `PUT /api/products/:id`
+- **Description**: Updates an existing field.
+- **Request Body (form data):**
+  optional Fields: name, price, description
+- **Response (on Success)**:
+```json
+{
+  "message": "Product deleted Successfully"
+}
+```
+
+- **Response (on Failure)**:
+```json
+{
+  "message": "Product not found"
+}
 ```
