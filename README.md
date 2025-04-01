@@ -52,9 +52,11 @@ cd frontend
 npm install
 ```
 📦 **Key Frontend Libraries:**  
-- `react-router-dom` – Routing  
-- `axios` – API calls
-- `crypto-js` - Encryption and hashing functions
+| Library            | Purpose    |
+|--------------------|------------|
+| `react-router-dom` | Routing    |
+| `axios`            | API calls  |
+| `crypto-js`        | Encryption and hashing functions |
 
 #### 3️⃣ Set Up Environment Variables
 Create a `.env` file in the **root** directory and add:
@@ -80,31 +82,40 @@ npm run dev
 ```
 HPVP-Project/
 │-- backend/
-│   ├── models/        # Mongoose models
+|   ├── config/    # Databsse configuration
+│   ├── controllers/    # Business logic for routes
+│   ├── middleware/     # Authentication, validation  and image upload middleware
+│   ├── models/        # Mongoose models (User, Products and wishlisted items)
 │   ├── routes/        # Express routes
-│   ├── controllers/   # Business logic
-│   ├── middleware/    # Authentication & validation
+│   ├── server.js       # Main entry point for the backend server
 │-- frontend/
+│   ├── public/        # Static assets
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── App.jsx
-│-- .gitignore
-│-- package.json
-│-- README.md
+│   │   ├── api/      # Frontend API handler
+│   │   ├── assets/     # static assets
+│   │   ├── components/  # Reusable UI components (Navbar, Footer, Message handling and Login component)
+│   │   ├── pages/       # Page-level components (Landing, Home, Services, Buy, Sell, Wish, FAQ)
+│   │   ├── App.jsx      # Root React component
+│   │   ├── main.jsx     # Entry point for frontend
+│   ├── .env.local       # Frontend environment variables
+│   ├── index.html       # HTML template
+│   ├── vite.config.js   # Vite configuration
+├── uploads/       # Uploaded product images
+│-- .gitignore          # Files to be ignored in version control
+│-- package.json        # Dependencies and scripts
+│-- README.md           # Project documentation
 ```
 
 ---
 
 ## 📡 API Documentation
 ### 🔹 Authentication
-#### `POST /api/auth/register`
-- **Description**: Registers a new user.
+#### `POST /api/auth/login`
+- **Description**: Logs in a user and returns a JWT Token.
 - **Body**:
 ```json
 {
-  "name": "John Doe",
-  "email": "john@example.com",
+  "staffno": "xxxxxxx",
   "password": "securepassword"
 }
 ```
@@ -128,44 +139,3 @@ HPVP-Project/
   }
 ]
 ```
-
----
-
-## 🌍 Deployment Guide
-### 🔹 Deploying to Heroku (Backend)
-1. Create a Heroku app:
-   ```sh
-   heroku create hpvp-c2c-backend
-   ```
-2. Push the code:
-   ```sh
-   git push heroku main
-   ```
-
-### 🔹 Deploying Frontend (Netlify/Vercel)
-- **Netlify**: 
-  1. Run `npm run build`
-  2. Upload `dist/` folder to Netlify
-
-- **Vercel**:
-  ```sh
-  vercel deploy
-  ```
-
----
-
-## 🤝 Contributing
-Feel free to submit issues or pull requests on GitHub!
-
----
-
-## ❓ FAQs
-**Q: How do I reset my password?**
-A: Use the `POST /api/auth/reset` endpoint with your email.
-
-**Q: Can I deploy this on a VPS?**
-A: Yes! Use **PM2** for backend and **Nginx** for reverse proxy.
-
----
-
-💡 **Need more help?** Open an issue on GitHub!
