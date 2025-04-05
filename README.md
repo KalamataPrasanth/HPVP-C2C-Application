@@ -82,28 +82,29 @@ npm run dev
 ```
 HPVP-Project/
 │-- backend/
-|   ├── config/    # Databsse configuration
-│   ├── controllers/    # Business logic for routes
-│   ├── middleware/     # Authentication, validation  and image upload middleware
-│   ├── models/        # Mongoose models (User, Products and wishlisted items)
-│   ├── routes/        # Express routes
-│   ├── server.js       # Main entry point for the backend server
+|   ├── config/           # Databsse configuration
+│   ├── controllers/      # Business logic for routes
+│   ├── middleware/       # Authentication, validation  and image upload middleware
+│   ├── models/           # Mongoose models (User, Products and wishlisted items)
+│   ├── routes/           # Express routes
+│   ├── server.js         # Main entry point for the backend server
 │-- frontend/
-│   ├── public/        # Static assets
+│   ├── public/           # Static assets
 │   ├── src/
-│   │   ├── api/      # Frontend API handler
-│   │   ├── assets/     # static assets
-│   │   ├── components/  # Reusable UI components (Navbar, Footer, Message handling and Login component)
-│   │   ├── pages/       # Page-level components (Landing, Home, Services, Buy, Sell, Wish, FAQ)
-│   │   ├── App.jsx      # Root React component
-│   │   ├── main.jsx     # Entry point for frontend
-│   ├── .env.local       # Frontend environment variables
-│   ├── index.html       # HTML template
-│   ├── vite.config.js   # Vite configuration
-├── uploads/       # Uploaded product images
-│-- .gitignore          # Files to be ignored in version control
-│-- package.json        # Dependencies and scripts
-│-- README.md           # Project documentation
+│   │   ├── api/          # Frontend API handler
+│   │   ├── assets/       # static assets
+│   │   ├── components/   # Reusable UI components (Navbar, Footer, Message handling and Login component)
+│   │   ├── pages/        # Page-level components (Landing, Home, Services, Buy, Sell, Wish, FAQ)
+│   │   ├── App.jsx       # Root React component
+│   │   ├── main.jsx      # Entry point for frontend
+│   ├── .env.local        # Frontend environment variables
+│   ├── index.html        # HTML template
+│   ├── vite.config.js    # Vite configuration
+├── uploads/              # Uploaded product images
+│-- .gitignore            # Files to be ignored in version control
+│-- package.json          # Dependencies and scripts
+│-- loadTest.js           # Load test script
+│-- README.md             # Project documentation
 ```
 
 ---
