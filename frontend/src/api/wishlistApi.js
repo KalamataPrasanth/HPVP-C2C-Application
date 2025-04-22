@@ -8,9 +8,18 @@ const API_BASE_URL =
 
 const API_URL = `${API_BASE_URL}/api/wishlist`;
 
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
+
 export const addWishlistItem = async (wishlistData) => {
   try {
-    const response = await axios.post(API_URL, wishlistData);
+    const response = await axios.post(API_URL, wishlistData, getAuthHeaders());
     return response.data;
   } catch (error) {
     console.error("Error adding wishlist item:", error);
@@ -28,9 +37,19 @@ export const getWishlistItems = async () => {
   }
 };
 
+export const getMyWishlistItems = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/mywishlist`, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching my wishlist items: ", error);
+    throw error;
+  }
+};
+
 export const deleteWishlistItem = async (id) => {
   try{
-    const response = await axios.delete(`${API_URL}/${id}`);
+    const response = await axios.delete(`${API_URL}/${id}`, getAuthHeaders());
     return response.data;
   }catch(error){
     console.error("Error deleting wishlist item: ", error);

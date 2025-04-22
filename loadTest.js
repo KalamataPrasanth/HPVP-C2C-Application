@@ -13,7 +13,8 @@ export let options = {
 };
 
 export default function () {
-  let res = http.get('http://localhost:5000/api/products'); // Replace with actual API URL
+  // let res = http.get('http://localhost:5000/api/products'); // Replace with actual API URL
+  let res = http.get('http://localhost:5000/api/wishlist');
 
   check(res, {
     'is status 200': (r) => r.status === 200,

@@ -5,6 +5,25 @@
     min-height: 100vh;
 }
 
+.buy-page-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+}
+
+.buy-page-header h1{
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.filter-dropdown{
+  position: absolute;
+  right: 1rem;
+}
+
 h1 {
     text-align: center;
     color: #504b38;

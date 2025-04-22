@@ -12,6 +12,10 @@ const WishlistSchema = new mongoose.Schema({
     priceRange: {
         type: String,
         required: true
+    },
+    staffno: {
+        type: String,
+        required: true
     }
 },{
     timestamps: true

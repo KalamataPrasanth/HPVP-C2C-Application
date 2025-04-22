@@ -21,6 +21,11 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',
         required: true
+    },
+    category: {
+        type: String,
+        required: true,
+        enum: ['Electronics and Appliances', 'Vehicles', 'Real Estate', 'Furniture and Home Decor', 'Fashion and Accessories', 'Stationary', 'Books', 'Sports and Hobbies', 'Tools and Machinery', 'Jobs, Services and Software']
     }
 }, {
     timestamps: true

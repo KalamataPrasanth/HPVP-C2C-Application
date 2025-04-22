@@ -3,17 +3,32 @@ import axios from "axios";
 import "./BuyPage.css";
 import dummyImage from "../assets/dummy.jpg";
 import { getProducts } from "../api/productApi";
+import CategoryDropdown from "../components/CategoryDropdown";
+
+const categories = ['Electronics and Appliances', 
+                    'Vehicles', 
+                    'Real Estate', 
+                    'Furniture and Home Decor', 
+                    'Fashion and Accessories', 
+                    'Stationary', 
+                    'Books', 
+                    'Sports and Hobbies', 
+                    'Tools and Machinery', 
+                    'Jobs, Services and Software'];
+
 
 const BuyPage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect (() => {
     const fetchProducts = async () => {
       try{
-        const response = await getProducts();
+        setLoading(true);
+        const response = await getProducts(selectedCategory);
         console.log("Fetched Resposnse: ", response);
         setProducts(Array.isArray(response.data)? response.data: []);
       }catch(error){
@@ -24,13 +39,20 @@ const BuyPage = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [selectedCategory]);
 
   return (
     <div className="buy-page">
-      <h1>Buy Items</h1>
+      <div className="buy-page-header">
+        <h1>Buy Items</h1>
+        <div className="filter-dropdown">
+          <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onChange={setSelectedCategory}/>
+        </div>
+      </div>
+
       { loading && <p>Loading Products, please wait</p>}
       { error && <p>{error}</p>}
+
       <div className="item-grid">
         {products.map((item) => (
           <div key={item._id} className="item-card">

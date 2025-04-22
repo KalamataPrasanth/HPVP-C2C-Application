@@ -14,10 +14,18 @@
     margin-bottom: 10px;
 }
 
-#hero-text, #hero-caption {
+#hero-text, #hero-caption, #logged-in-user, #username {
     color: #504B38;
     margin: 5px 0;
     line-height: 1.5;
+}
+
+#username, #logged-in-user{
+    font-size: 2rem;
+}
+
+#username{
+    font-weight: bold;
 }
 
 #hero-text{

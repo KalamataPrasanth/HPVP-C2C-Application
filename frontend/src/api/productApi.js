@@ -22,14 +22,32 @@ export const addProduct = async (productData) => {
     return response.data;
 };
 
-//fetching products
-export const getProducts = async () => {
-    try{
-      const response = await axios.get(API_URL);
-      return response.data
-    }catch(error){
-      console.error("Error fetching products: ", error);
-      throw error;
+  // fetch products
+  export const getProducts = async (category = "") => {
+    try {
+        const response = await axios.get(API_URL, {
+            params: category ? { category } : {}
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching products by category: ", error);
+        throw error;
+    }
+  };
+  
+  // get My products
+  export const getMyProducts = async () => {
+    try {
+        const token = getAuthToken();
+        const response = await axios.get(`${API_URL}/myproducts`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching my products: ", error);
+        throw error;
     }
   };
 

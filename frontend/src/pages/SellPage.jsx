@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addProduct, getProducts, deleteProduct, updateProduct } from "../api/productApi.js";
+import { addProduct, getMyProducts, deleteProduct, updateProduct } from "../api/productApi.js";
 import Message from "../components/Message.jsx";
 import './SellPage.css';
 
@@ -10,6 +10,7 @@ export default function SellPage() {
     price: "",
     image: null,
     preview: "",
+    category: "",
   });
 
   const [products, setProducts] = useState([]);
@@ -29,7 +30,7 @@ export default function SellPage() {
 
   const fetchProducts = async () => {
     try{
-      const response = await getProducts();
+      const response = await getMyProducts();
       setProducts(response.data);
     }catch(error){
       console.error("Error Fetching Products", error);
@@ -113,6 +114,7 @@ export default function SellPage() {
     productData.append("description", formData.description);
     productData.append("price", formData.price);
     productData.append("staffno", staffno);
+    productData.append("category", formData.category);
     if(formData.image){
       console.log("Appending Image:", formData.image);
       productData.append("image", formData.image);
@@ -133,6 +135,7 @@ export default function SellPage() {
         price: "",
         image: null,
         preview: "",
+        category: "",
       });
 
       fetchProducts();
@@ -151,10 +154,6 @@ export default function SellPage() {
   return (
     <div className="sell-container">
       <h2>Sell an Item</h2>
-
-      { message && (
-        <Message message = {message} isError={isError} onClose={handleCloseMessage}/>
-      )}
 
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="sell-container-fields">
@@ -194,6 +193,24 @@ export default function SellPage() {
                 required
             />
         </div>
+
+        <div className="sell-container-fields">
+            <label htmlFor="category">Category</label>
+            <select name="category" id="category" value={formData.category} onChange={handleChange} required>
+              <option value="">-- Select a Category --</option>
+              <option value="Electronics and Appliances">Electronics and Appliances</option>
+              <option value="Vehicles">Vehicles</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Furniture and Home Decor">Furniture and Home Decor</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Stationary">Stationary</option>
+              <option value="Books">Books</option>
+              <option value="Sports and Hobbies">Sports and Hobbies</option>
+              <option value="Tools and Machinery">Tools and Machinery</option>
+              <option value="Jobs, Services and Software">Jobs, Services and Software</option>
+            </select>
+        </div>
+
         <div className="sell-container-fields">
             <label htmlFor="image">Upload Image</label>
             <input name="image" id="image-upload" type="file" accept="image/*" onChange={handleImageChange} />
@@ -205,6 +222,10 @@ export default function SellPage() {
       
       {!showTable && (
         <button id="show-products-btn" onClick={ ()=> setShowTable(true)}>Show Products</button>
+      )}
+
+      { message && (
+              <Message message = {message} isError={isError} onClose={handleCloseMessage}/>
       )}
 
       {showTable && (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addWishlistItem, getWishlistItems, deleteWishlistItem } from '../api/wishlistApi.js';
+import { addWishlistItem, getWishlistItems, deleteWishlistItem, getMyWishlistItems } from '../api/wishlistApi.js';
 import Message from "../components/Message.jsx";
 import "./WishPage.css";
 
@@ -12,16 +12,17 @@ export default function WishPage() {
 
   const [wishlistItems, setWishlistItems] = useState([]);
   const [showTable, setShowTable] = useState(false);
+  const [showMyList, setShowMyList] = useState(false);
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     fetchWishlistItems();
-  }, []);
+  }, [showMyList]);
 
   const fetchWishlistItems = async() => {
     try{
-      const response = await getWishlistItems();
+      const response = showMyList ? await getMyWishlistItems() : await getWishlistItems() ;
       setWishlistItems(response.data);
     }catch(error){
       console.error("Error Fetching Wishlist items", error);
@@ -87,10 +88,6 @@ export default function WishPage() {
     <div className="wish-container">
       <h2>Wishlist an Item</h2>
 
-      {message && (
-        <Message message={message} isError={isError} onClose={handleCloseMessage}/>
-      )}
-
       <form onSubmit={handleSubmit}>
         <div className="wish-container-fields">
           <label htmlFor="itemName">Item Name</label>
@@ -137,10 +134,19 @@ export default function WishPage() {
         <button id= "show-wishlist-btn" onClick={() => setShowTable(true)}>Show Wishlist</button>
       )}
 
+      {message && (
+        <Message message={message} isError={isError} onClose={handleCloseMessage}/>
+      )}
+
       {
         showTable && (
           <div>
             <h2>Wishlist Items</h2>
+
+            <button className="toggle-btn" onClick={() => setShowMyList(prev => !prev)}>
+              {showMyList ? "Show All Items" : "Show My Items Only"}
+            </button>
+
             <table className="wishlist-table">
 
               <thead>
@@ -148,7 +154,7 @@ export default function WishPage() {
                   <th>Name</th>
                   <th>Description</th>
                   <th>Price Range</th>
-                  <th>Delete Post</th>
+                  {showMyList && <th>Delete Post</th>}
                 </tr>
               </thead>
 
@@ -159,14 +165,16 @@ export default function WishPage() {
                       <td>{item.name}</td>
                       <td>{item.description}</td>
                       <td>{item.priceRange}</td>
-                      <td>
-                        <button className="delete-btn" onClick={() => handleDelete(item._id)}>Delete</button>
-                      </td>
+                      { showMyList && (
+                        <td>
+                          <button className="delete-btn" onClick={() => handleDelete(item._id)}>Delete</button>
+                        </td>
+                      )}
                     </tr>
                   ))
                 ): (
                   <tr>
-                    <td colSpan="3">No Wishlist items available</td>
+                    <td colSpan={showMyList? "4":"3"}>No Wishlist items available</td>
                   </tr>
                 )}
               </tbody>

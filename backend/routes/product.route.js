@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, deleteProduct, getProductById, getProducts, updateProduct } from '../controllers/product.controller.js';
+import { createProduct, deleteProduct, getProductById, getProducts, updateProduct, getMyProducts } from '../controllers/product.controller.js';
 import upload from '../middleware/upload.middleware.js';
 import authMiddleware from '../middleware/auth.middleware.js';
 
@@ -10,6 +10,9 @@ router.post('/',authMiddleware, upload.single('image'), createProduct);
 
 //get all products
 router.get('/', getProducts);
+
+//get products by logged in user
+router.get('/myproducts', authMiddleware, getMyProducts);
 
 //get product by id
 router.get('/:id', getProductById);

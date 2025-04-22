@@ -10,8 +10,8 @@ export const createProduct = async (req, res)=> {
     console.log("$#$ Received Date: ", req.body);
     console.log("$#$ Received file: ", req.file);
 
-    const { name, price, description, staffno } = req.body
-    if (!name || !price || !description || !staffno){
+    const { name, price, description, category} = req.body
+    if (!name || !price || !description || !category){
         return res.status(400).json({success: false, message: "Please provide all fields including seller"});
     }
 
@@ -20,13 +20,13 @@ export const createProduct = async (req, res)=> {
     }
 
     try{
-        const validSeller = await Employee.findOne({staffno: String(staffno)});
+        const validSeller = await Employee.findOne({staffno: req.user.staffno});
         if (!validSeller){
             return res.status(400).json({success: false, message: "Invalid Seller, Employee does not exist."});
         }
 
         const newProduct = new Product({ 
-            name, price, description, 
+            name, price, description, category, 
             seller: validSeller._id,
             image: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
         });
@@ -43,7 +43,11 @@ export const createProduct = async (req, res)=> {
 //get all products
 export const getProducts = async (req, res)=> {
     try{
-        const products = await Product.find({}).populate('seller', '-password');
+        const query = {};
+        if (req.query.category){
+            query.category = req.query.category;
+        }
+        const products = await Product.find(query).populate('seller', '-password');
         res.status(200).json({success: true, data: products});
     }catch(error){
         res.status(500).json({success: false, message: error.message})
@@ -64,6 +68,25 @@ export const getProductById = async (req, res) =>{
     }
 };
 
+//get products by logged-in user
+export const getMyProducts = async (req, res) => {
+    try {
+        const employee = await Employee.findOne({ staffno: req.user.staffno });
+
+        if (!employee) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
+        }
+
+        const myProducts = await Product.find({ seller: employee._id }).populate('seller', '-password');
+
+        res.status(200).json({ success: true, data: myProducts });
+    } catch (error) {
+        console.error("Error fetching user products:", error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+};
+
+
 //update product
 export const updateProduct = async (req, res) => {
     const {id} = req.params;
@@ -75,6 +98,10 @@ export const updateProduct = async (req, res) => {
         const product = await Product.findById(id);
         if (!product){
             return res.status(404).json({success: false, message: "Product not Found"});
+        }
+
+        if (String(product.seller) !== String(req.user._id)){
+            return res.status(403).json({success: false, message: "Unauthorized: Not your product"});
         }
 
         product.name = req.body.name || product.name;
@@ -110,6 +137,10 @@ export const deleteProduct = async (req, res) => {
         const product = await Product.findById(id);
         if (!product){
             return res.status(404).json({message: "Product Not found"});
+        }
+
+        if (String(product.seller) !== String(req.user._id)){
+            return res.status(403).json({success: false, message: "Unauthorized: Not your product"});
         }
 
         if (product.image) {
